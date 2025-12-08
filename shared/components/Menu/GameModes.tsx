@@ -1,14 +1,20 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import useKanaStore from '@/features/Kana/store/useKanaStore';
 import useKanjiStore from '@/features/Kanji/store/useKanjiStore';
 import useVocabStore from '@/features/Vocabulary/store/useVocabStore';
-import { MousePointerClick, Keyboard, Play, ArrowLeft } from 'lucide-react';
+import { kana } from '@/features/Kana/data/kana';
+import {
+  MousePointerClick,
+  Keyboard,
+  Play,
+  ArrowLeft,
+  CheckCircle2
+} from 'lucide-react';
 import clsx from 'clsx';
 import { useClick } from '@/shared/hooks/useAudio';
 import { useShallow } from 'zustand/react/shallow';
 import { Link, useRouter } from '@/core/i18n/routing';
-// import { ActionButton } from '@/shared/components/ui/ActionButton';
 
 interface GameModesProps {
   isOpen: boolean;
@@ -20,26 +26,58 @@ const GameModes = ({ isOpen, onClose, currentDojo }: GameModesProps) => {
   const { playClick } = useClick();
   const router = useRouter();
 
-  const { selectedGameModeKana, setSelectedGameModeKana } = useKanaStore(
-    useShallow(state => ({
-      selectedGameModeKana: state.selectedGameModeKana,
-      setSelectedGameModeKana: state.setSelectedGameModeKana
-    }))
-  );
+  const { selectedGameModeKana, setSelectedGameModeKana, kanaGroupIndices } =
+    useKanaStore(
+      useShallow(state => ({
+        selectedGameModeKana: state.selectedGameModeKana,
+        setSelectedGameModeKana: state.setSelectedGameModeKana,
+        kanaGroupIndices: state.kanaGroupIndices
+      }))
+    );
 
-  const { selectedGameModeKanji, setSelectedGameModeKanji } = useKanjiStore(
-    useShallow(state => ({
-      selectedGameModeKanji: state.selectedGameModeKanji,
-      setSelectedGameModeKanji: state.setSelectedGameModeKanji
-    }))
-  );
+  const { selectedGameModeKanji, setSelectedGameModeKanji, selectedKanjiSets } =
+    useKanjiStore(
+      useShallow(state => ({
+        selectedGameModeKanji: state.selectedGameModeKanji,
+        setSelectedGameModeKanji: state.setSelectedGameModeKanji,
+        selectedKanjiSets: state.selectedKanjiSets
+      }))
+    );
 
-  const { selectedGameModeVocab, setSelectedGameModeVocab } = useVocabStore(
-    useShallow(state => ({
-      selectedGameModeVocab: state.selectedGameModeVocab,
-      setSelectedGameModeVocab: state.setSelectedGameModeVocab
-    }))
-  );
+  const { selectedGameModeVocab, setSelectedGameModeVocab, selectedVocabSets } =
+    useVocabStore(
+      useShallow(state => ({
+        selectedGameModeVocab: state.selectedGameModeVocab,
+        setSelectedGameModeVocab: state.setSelectedGameModeVocab,
+        selectedVocabSets: state.selectedVocabSets
+      }))
+    );
+
+  // Convert kana indices to display names
+  const { kanaGroupNamesFull, kanaGroupNamesCompact } = useMemo(() => {
+    const full: string[] = [];
+    const compact: string[] = [];
+
+    kanaGroupIndices.forEach(i => {
+      const group = kana[i];
+      if (!group) {
+        const fallback = `Group ${i + 1}`;
+        full.push(fallback);
+        compact.push(fallback);
+        return;
+      }
+
+      const firstKana = group.kana[0];
+      const isChallenge = group.groupName.startsWith('challenge.');
+
+      full.push(
+        isChallenge ? `${firstKana}-group (challenge)` : `${firstKana}-group`
+      );
+      compact.push(firstKana);
+    });
+
+    return { kanaGroupNamesFull: full, kanaGroupNamesCompact: compact };
+  }, [kanaGroupIndices]);
 
   const selectedGameMode =
     currentDojo === 'kana'
@@ -120,6 +158,15 @@ const GameModes = ({ isOpen, onClose, currentDojo }: GameModesProps) => {
               Choose your training mode
             </p>
           </div>
+
+          {/* Selected Levels */}
+          <SelectedLevelsCard
+            currentDojo={currentDojo}
+            kanaGroupNamesCompact={kanaGroupNamesCompact}
+            kanaGroupNamesFull={kanaGroupNamesFull}
+            selectedKanjiSets={selectedKanjiSets}
+            selectedVocabSets={selectedVocabSets}
+          />
 
           {/* Game Mode Cards */}
           <div className='space-y-3'>
@@ -255,5 +302,83 @@ const GameModes = ({ isOpen, onClose, currentDojo }: GameModesProps) => {
     </div>
   );
 };
+
+// Sub-component for displaying selected levels/groups
+function SelectedLevelsCard({
+  currentDojo,
+  kanaGroupNamesCompact,
+  kanaGroupNamesFull,
+  selectedKanjiSets,
+  selectedVocabSets
+}: {
+  currentDojo: string;
+  kanaGroupNamesCompact: string[];
+  kanaGroupNamesFull: string[];
+  selectedKanjiSets: string[];
+  selectedVocabSets: string[];
+}) {
+  const isKana = currentDojo === 'kana';
+  const isKanji = currentDojo === 'kanji';
+
+  const formatCompact = () => {
+    if (isKana) {
+      return kanaGroupNamesCompact.length > 0
+        ? kanaGroupNamesCompact.join(', ')
+        : 'None';
+    }
+    const sets = isKanji ? selectedKanjiSets : selectedVocabSets;
+    return sets.length > 0
+      ? sets
+          .sort((a, b) => {
+            const numA = parseInt(a.replace(/\D/g, '')) || 0;
+            const numB = parseInt(b.replace(/\D/g, '')) || 0;
+            return numA - numB;
+          })
+          .map(set => set.replace('Set ', ''))
+          .join(', ')
+      : 'None';
+  };
+
+  const formatFull = () => {
+    if (isKana) {
+      return kanaGroupNamesFull.length > 0
+        ? kanaGroupNamesFull.join(', ')
+        : 'None';
+    }
+    const sets = isKanji ? selectedKanjiSets : selectedVocabSets;
+    return sets.length > 0
+      ? sets
+          .sort((a, b) => {
+            const numA = parseInt(a.replace(/\D/g, '')) || 0;
+            const numB = parseInt(b.replace(/\D/g, '')) || 0;
+            return numA - numB;
+          })
+          .map(set => `Level ${set.replace('Set ', '')}`)
+          .join(', ')
+      : 'None';
+  };
+
+  return (
+    <div className='bg-[var(--card-color)] rounded-lg p-4'>
+      <div className='flex flex-col gap-2'>
+        <div className='flex flex-row items-center gap-2'>
+          <CheckCircle2
+            className='text-[var(--secondary-color)] shrink-0'
+            size={20}
+          />
+          <span className='text-sm'>
+            {isKana ? 'Selected Groups:' : 'Selected Levels:'}
+          </span>
+        </div>
+        <span className='text-[var(--secondary-color)] text-sm break-words md:hidden'>
+          {formatCompact()}
+        </span>
+        <span className='text-[var(--secondary-color)] text-sm break-words hidden md:inline'>
+          {formatFull()}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default GameModes;
