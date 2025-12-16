@@ -85,13 +85,13 @@ export default function TranslationHistory({
   return (
     <div
       className={cn(
-        'flex flex-col gap-4 p-5 rounded-2xl',
+        'flex flex-col gap-4 p-4 sm:p-5 rounded-2xl',
         'bg-[var(--card-color)] border border-[var(--border-color)]',
         'shadow-lg shadow-black/5'
       )}
     >
       {/* Header with clear all button */}
-      <div className='flex items-center justify-between'>
+      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-3'>
         <div className='flex items-center gap-3'>
           <div
             className={cn(
@@ -103,7 +103,7 @@ export default function TranslationHistory({
             <History className='h-5 w-5 text-[var(--main-color)]' />
           </div>
           <div>
-            <h3 className='text-lg font-semibold text-[var(--main-color)]'>
+            <h3 className='text-base sm:text-lg font-semibold text-[var(--main-color)]'>
               Translation History
             </h3>
             <p className='text-xs text-[var(--secondary-color)]'>
@@ -170,12 +170,12 @@ export default function TranslationHistory({
       </div>
 
       {/* History entries list */}
-      <div className='flex flex-col gap-2 max-h-[400px] overflow-y-auto pr-1'>
+      <div className='flex flex-col gap-2 max-h-[300px] sm:max-h-[400px] overflow-y-auto pr-1'>
         {entries.map(entry => (
           <div
             key={entry.id}
             className={cn(
-              'group flex items-start gap-3 p-4 rounded-xl cursor-pointer',
+              'group flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl cursor-pointer',
               'bg-[var(--background-color)] border border-[var(--border-color)]',
               'hover:border-[var(--main-color)] hover:shadow-md',
               'transition-all duration-200'
@@ -192,7 +192,7 @@ export default function TranslationHistory({
           >
             {/* Entry content */}
             <div className='flex-1 min-w-0'>
-              <div className='flex items-center gap-2 mb-2'>
+              <div className='flex flex-wrap items-center gap-2 mb-2'>
                 <span
                   className={cn(
                     'text-xs px-2 py-1 rounded-md font-medium',
@@ -209,16 +209,16 @@ export default function TranslationHistory({
                   {formatTimestamp(entry.timestamp)}
                 </span>
               </div>
-              <p className='text-sm text-[var(--main-color)] font-medium truncate'>
-                {truncateText(entry.sourceText, 60)}
+              <p className='text-xs sm:text-sm text-[var(--main-color)] font-medium truncate'>
+                {truncateText(entry.sourceText, 40)}
               </p>
               <p className='text-xs text-[var(--secondary-color)] truncate mt-1 flex items-center gap-1'>
                 <ArrowRight className='h-3 w-3 flex-shrink-0' />
-                {truncateText(entry.translatedText, 60)}
+                {truncateText(entry.translatedText, 40)}
               </p>
             </div>
 
-            {/* Delete button */}
+            {/* Delete button - always visible on mobile */}
             <ActionButton
               colorScheme='secondary'
               borderColorScheme='secondary'
@@ -226,7 +226,7 @@ export default function TranslationHistory({
               borderBottomThickness={6}
               className={cn(
                 '!w-9 !min-w-9 h-9 !p-0 flex-shrink-0',
-                'opacity-0 group-hover:opacity-100',
+                'sm:opacity-0 sm:group-hover:opacity-100',
                 'transition-opacity duration-200'
               )}
               onClick={e => {

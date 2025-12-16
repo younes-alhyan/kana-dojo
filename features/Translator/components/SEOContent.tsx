@@ -41,17 +41,17 @@ function CollapsibleSection({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'w-full flex items-center justify-between p-4 cursor-pointer',
+          'w-full flex items-center justify-between p-3 sm:p-4 cursor-pointer',
           'bg-[var(--card-color)]',
           'hover:bg-[var(--border-color)]',
           'text-[var(--main-color)] transition-colors duration-200'
         )}
         aria-expanded={isOpen}
       >
-        <span className='flex items-center gap-3 font-semibold'>
+        <span className='flex items-center gap-2 sm:gap-3 font-semibold text-sm sm:text-base'>
           <span
             className={cn(
-              'p-2 rounded-lg',
+              'p-1.5 sm:p-2 rounded-lg',
               'bg-[var(--main-color)]/10',
               'border border-[var(--main-color)]/20'
             )}
@@ -62,7 +62,7 @@ function CollapsibleSection({
         </span>
         <span
           className={cn(
-            'p-1.5 rounded-lg',
+            'p-1 sm:p-1.5 rounded-lg',
             'bg-[var(--background-color)]',
             'transition-transform duration-200',
             isOpen && 'rotate-180'
@@ -77,7 +77,7 @@ function CollapsibleSection({
           isOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
         )}
       >
-        <div className='p-5 bg-[var(--background-color)] text-[var(--secondary-color)] border-t border-[var(--border-color)]'>
+        <div className='p-4 sm:p-5 bg-[var(--background-color)] text-[var(--secondary-color)] border-t border-[var(--border-color)]'>
           {children}
         </div>
       </div>
@@ -89,27 +89,27 @@ export default function SEOContent({ locale = 'en' }: SEOContentProps) {
   return (
     <section
       className={cn(
-        'flex flex-col gap-4 mt-8 p-6 rounded-2xl',
+        'flex flex-col gap-4 mt-6 sm:mt-8 p-4 sm:p-6 rounded-2xl',
         'bg-[var(--card-color)] border border-[var(--border-color)]',
         'shadow-lg shadow-black/5'
       )}
       aria-label='Educational content'
     >
-      <div className='flex items-center gap-3 mb-2'>
+      <div className='flex flex-col sm:flex-row sm:items-center gap-3 mb-2'>
         <div
           className={cn(
-            'p-2.5 rounded-xl',
+            'p-2 sm:p-2.5 rounded-xl w-fit',
             'bg-[var(--main-color)]/10',
             'border border-[var(--main-color)]/20'
           )}
         >
-          <GraduationCap className='h-6 w-6 text-[var(--main-color)]' />
+          <GraduationCap className='h-5 w-5 sm:h-6 sm:w-6 text-[var(--main-color)]' />
         </div>
         <div>
-          <h2 className='text-2xl font-bold text-[var(--main-color)]'>
+          <h2 className='text-xl sm:text-2xl font-bold text-[var(--main-color)]'>
             Japanese Translation Guide
           </h2>
-          <p className='text-sm text-[var(--secondary-color)]'>
+          <p className='text-xs sm:text-sm text-[var(--secondary-color)]'>
             Learn more about Japanese translation and writing systems
           </p>
         </div>

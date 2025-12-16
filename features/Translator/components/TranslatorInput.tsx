@@ -87,7 +87,7 @@ export default function TranslatorInput({
   return (
     <div
       className={cn(
-        'flex flex-col gap-3 w-full p-5 rounded-2xl',
+        'flex flex-col gap-3 w-full p-4 sm:p-5 rounded-2xl',
         'bg-[var(--card-color)] border border-[var(--border-color)]',
         'shadow-lg shadow-black/5'
       )}
@@ -158,9 +158,9 @@ export default function TranslatorInput({
               : 'テキストを入力してください...'
           }
           className={cn(
-            'w-full min-h-[220px] p-4 rounded-xl resize-none',
+            'w-full min-h-[180px] sm:min-h-[220px] p-3 sm:p-4 rounded-xl resize-none',
             'bg-[var(--background-color)] border border-[var(--border-color)]',
-            'text-[var(--main-color)] text-lg placeholder:text-[var(--secondary-color)]/60',
+            'text-[var(--main-color)] text-base sm:text-lg placeholder:text-[var(--secondary-color)]/60',
             'focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent',
             'transition-all duration-200',
             isOverLimit && 'border-red-500 focus:ring-red-500',
@@ -212,8 +212,8 @@ export default function TranslatorInput({
         </div>
       )}
 
-      {/* Keyboard shortcut hint */}
-      <div className='flex items-center gap-2 text-xs text-[var(--secondary-color)]'>
+      {/* Keyboard shortcut hint - hidden on mobile */}
+      <div className='hidden sm:flex items-center gap-2 text-xs text-[var(--secondary-color)]'>
         <Keyboard className='h-3.5 w-3.5' />
         <span>
           Press{' '}

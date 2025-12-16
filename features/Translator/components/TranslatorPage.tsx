@@ -65,25 +65,25 @@ export default function TranslatorPage({ locale = 'en' }: TranslatorPageProps) {
           {/* Header */}
           <div
             className={cn(
-              'flex items-center gap-4 p-6 rounded-2xl',
+              'flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 sm:p-6 rounded-2xl',
               'bg-gradient-to-r from-[var(--card-color)] to-[var(--background-color)]',
               'border border-[var(--border-color)]'
             )}
           >
             <div
               className={cn(
-                'p-3 rounded-xl',
+                'p-2.5 sm:p-3 rounded-xl',
                 'bg-[var(--main-color)]/10',
                 'border border-[var(--main-color)]/20'
               )}
             >
-              <Languages className='h-8 w-8 text-[var(--main-color)]' />
+              <Languages className='h-6 w-6 sm:h-8 sm:w-8 text-[var(--main-color)]' />
             </div>
             <div>
-              <h1 className='text-3xl font-bold text-[var(--main-color)]'>
+              <h1 className='text-2xl sm:text-3xl font-bold text-[var(--main-color)]'>
                 Japanese Translator
               </h1>
-              <p className='text-sm text-[var(--secondary-color)] mt-1'>
+              <p className='text-xs sm:text-sm text-[var(--secondary-color)] mt-1'>
                 Translate between English and Japanese with romanization support
               </p>
             </div>
@@ -127,12 +127,12 @@ export default function TranslatorPage({ locale = 'en' }: TranslatorPageProps) {
             />
 
             {/* Swap button - centered between input and output */}
-            <div className='flex items-center justify-center lg:pt-16'>
+            <div className='flex items-center justify-center py-2 lg:py-0 lg:pt-16'>
               <button
                 onClick={swapLanguages}
                 disabled={isLoading || isOffline}
                 className={cn(
-                  'h-14 w-14 rounded-full cursor-pointer',
+                  'h-12 w-12 lg:h-14 lg:w-14 rounded-full cursor-pointer',
                   'bg-[var(--card-color)] border-2 border-[var(--border-color)]',
                   'hover:border-[var(--main-color)] hover:bg-[var(--border-color)]',
                   'active:scale-95 transition-all duration-200',
@@ -158,7 +158,7 @@ export default function TranslatorPage({ locale = 'en' }: TranslatorPageProps) {
           </div>
 
           {/* Translate button */}
-          <div className='flex justify-center'>
+          <div className='flex justify-center px-4 sm:px-0'>
             <ActionButton
               onClick={handleTranslate}
               disabled={
@@ -168,7 +168,7 @@ export default function TranslatorPage({ locale = 'en' }: TranslatorPageProps) {
               borderRadius='2xl'
               borderBottomThickness={6}
               className={cn(
-                'w-full md:w-auto min-w-[240px] h-14 text-lg font-semibold',
+                'w-full sm:w-auto sm:min-w-[240px] h-12 sm:h-14 text-base sm:text-lg font-semibold',
                 'disabled:opacity-50 disabled:cursor-not-allowed'
               )}
             >

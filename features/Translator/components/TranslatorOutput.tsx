@@ -40,7 +40,7 @@ export default function TranslatorOutput({
   return (
     <div
       className={cn(
-        'flex flex-col gap-3 w-full p-5 rounded-2xl',
+        'flex flex-col gap-3 w-full p-4 sm:p-5 rounded-2xl',
         'bg-[var(--card-color)] border border-[var(--border-color)]',
         'shadow-lg shadow-black/5'
       )}
@@ -89,7 +89,7 @@ export default function TranslatorOutput({
       {/* Output area */}
       <div
         className={cn(
-          'w-full min-h-[220px] p-4 rounded-xl',
+          'w-full min-h-[180px] sm:min-h-[220px] p-3 sm:p-4 rounded-xl',
           'bg-[var(--background-color)] border border-[var(--border-color)]',
           'text-[var(--main-color)]',
           'relative'
@@ -113,7 +113,7 @@ export default function TranslatorOutput({
         ) : translation ? (
           <div className='flex flex-col gap-4'>
             {/* Main translation */}
-            <p className='text-lg whitespace-pre-wrap break-words leading-relaxed'>
+            <p className='text-base sm:text-lg whitespace-pre-wrap break-words leading-relaxed'>
               {translation}
             </p>
 
