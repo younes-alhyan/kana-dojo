@@ -329,61 +329,27 @@ const AchievementProgress = () => {
 
             {/* Stats Cards */}
             <div className='grid grid-cols-1 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-8'>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className={clsx('p-6 text-center', cardBorderStyles)}
-              >
-                <div className='text-3xl font-bold text-[var(--main-color)] mb-1'>
-                  {unlockedCount}
-                </div>
-                <div className='text-sm text-[var(--secondary-color)]'>
-                  Unlocked
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className={clsx('p-6 text-center', cardBorderStyles)}
-              >
-                <div className='text-3xl font-bold text-[var(--main-color)] mb-1'>
-                  {totalCount}
-                </div>
-                <div className='text-sm text-[var(--secondary-color)]'>
-                  Total
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className={clsx('p-6 text-center', cardBorderStyles)}
-              >
-                <div className='text-3xl font-bold text-[var(--main-color)] mb-1'>
-                  {totalPoints}
-                </div>
-                <div className='text-sm text-[var(--secondary-color)]'>
-                  Points
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className={clsx('p-6 text-center', cardBorderStyles)}
-              >
-                <div className='text-3xl font-bold text-[var(--main-color)] mb-1'>
-                  {level}
-                </div>
-                <div className='text-sm text-[var(--secondary-color)]'>
-                  Level
-                </div>
-              </motion.div>
+              {[
+                { value: unlockedCount, label: 'Unlocked' },
+                { value: totalCount, label: 'Total' },
+                { value: totalPoints, label: 'Points' },
+                { value: level, label: 'Level' }
+              ].map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * (index + 1) }}
+                  className={clsx('p-6 text-center', cardBorderStyles)}
+                >
+                  <div className='text-3xl font-bold text-[var(--main-color)] mb-1'>
+                    {stat.value}
+                  </div>
+                  <div className='text-sm text-[var(--secondary-color)]'>
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
             {/* Overall Progress */}
