@@ -13,6 +13,7 @@ import BackToTop from '@/shared/components/navigation/BackToTop';
 import MobileBottomBar from '@/shared/components/layout/BottomBar';
 import { useVisitTracker } from '@/features/Progress/hooks/useVisitTracker';
 import { getGlobalAdaptiveSelector } from '@/shared/lib/adaptiveSelection';
+import GlobalAudioController from '@/shared/components/layout/GlobalAudioController';
 
 // Initialize adaptive selector early to load persisted weights from IndexedDB
 // This runs once at module load time, ensuring weights are ready before games start
@@ -144,6 +145,7 @@ export default function ClientLayout({
         overflowY: 'auto'
       }}
     >
+      <GlobalAudioController />
       {children}
       <ScrollRestoration />
       <WelcomeModal />
